@@ -1,7 +1,9 @@
 <h1>記事一覧</h1>
 <% @articles.each do |article| %>
   <article class='article-list'>
-    <p class='title'>Title <%= article.title %></p>
-    <p>Author <%= article.user.name %></p>
+    <%= link_to "/articles/#{article.id}" do %>
+      <p class='title'>Title <%= article.title %></p>
+      <p>Author <%= article.user.name %></p>
+    <% end %>
   </article>
 <% end %>
