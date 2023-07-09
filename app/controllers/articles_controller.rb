@@ -10,6 +10,10 @@ class ArticlesController < ApplicationController
     @article = Article.find(id)
   end
 
+  def new
+    @article = Article.new
+  end
+
   private
 
   def url_not_found

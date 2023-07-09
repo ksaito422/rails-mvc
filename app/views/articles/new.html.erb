@@ -1,0 +1,9 @@
+<h1>新しい記事を書く</h1>
+<%= form_with model: @article do |form| %>
+  <%= form.label 'Title: ' %>
+  <%= form.text_field :title %>
+  <%= form.label 'Content: ' %>
+  <%= form.text_field :content %>
+  <%= form.submit '投稿する' %>
+<% end %>
+
