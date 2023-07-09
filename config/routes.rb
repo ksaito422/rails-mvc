@@ -3,4 +3,8 @@ Rails.application.routes.draw do
   root to: 'articles#index'
 
   get '/articles/:id', to: 'articles#show'
+
+  get '/login', to: 'auth#new'
+  post '/login', to: 'auth#create'
+  delete '/logout', to: 'auth#destroy'
 end
