@@ -12,4 +12,10 @@ RSpec.describe 'Articles', type: :routing do
       expect(get('/articles/1')).to route_to('articles#show', id: "1")
     end
   end
+
+  describe 'GET /articles' do
+    it 'articles#newにルーティングすること' do
+      expect(get('/articles')).to route_to('articles#new')
+    end
+  end
 end

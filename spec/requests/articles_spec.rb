@@ -23,4 +23,16 @@ RSpec.describe "Articles", type: :request do
       end
     end
   end
+
+  describe 'GET /articles' do
+    # TODO: 認可を実装したあとにログイン状態によって遷移可能かテストしたい
+    it '記事投稿画面を表示できること' do
+      get '/articles'
+      # articleインスタンスとArticleモデルが一致すること
+      article = controller.instance_variable_get(:@article)
+      expect(article).to be_a_new(Article)
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end
