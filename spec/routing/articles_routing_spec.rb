@@ -18,4 +18,10 @@ RSpec.describe 'Articles', type: :routing do
       expect(get('/articles')).to route_to('articles#new')
     end
   end
+
+  describe 'POST /articles' do
+    it 'articles#createにルーティングすること' do
+      expect(post('articles')).to route_to('articles#create')
+    end
+  end
 end
