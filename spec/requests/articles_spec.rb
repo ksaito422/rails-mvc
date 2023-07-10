@@ -35,4 +35,37 @@ RSpec.describe "Articles", type: :request do
       expect(response).to have_http_status(:ok)
     end
   end
+
+  describe 'POST /articles' do
+    let(:user) { FactoryBot.create(:user) }
+
+    context 'ログインしている場合' do
+      it '記事投稿できること' do
+        post login_path, params: {
+          session: {
+            email: user.email,
+            password: user.password
+          }
+        }
+        expect(session[:user_id]).to eq(user.id)
+
+        post articles_path, params: {
+          article: {
+            title: 'test title',
+            content: 'test content'
+          }
+        }
+        expect(Article.last.title).to eq 'test title'
+        expect(Article.last.content).to eq 'test content'
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(root_url)
+      end
+    end
+
+    # context 'ログインしていない場合' do
+    #   it '記事投稿できるないこと' do
+    #
+    #   end
+    # end
+  end
 end
