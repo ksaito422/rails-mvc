@@ -19,6 +19,8 @@ class ArticlesController < ApplicationController
   end
 
   def create
+    authorize Article
+
     if current_user.nil?
       render new
     else
