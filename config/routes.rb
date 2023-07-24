@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/articles', to: 'articles#new'
   post '/articles', to: 'articles#create'
   get '/articles/:id', to: 'articles#show'
+  delete '/articles/:id', to: 'articles#destroy'
 
   get '/login', to: 'auth#new'
   post '/login', to: 'auth#create'
