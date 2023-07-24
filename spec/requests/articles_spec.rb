@@ -25,13 +25,24 @@ RSpec.describe "Articles", type: :request do
   end
 
   describe 'GET /articles' do
-    it '記事投稿画面を表示できること' do
-      get '/articles'
-      # articleインスタンスとArticleモデルが一致すること
-      article = controller.instance_variable_get(:@article)
-      expect(article).to be_a_new(Article)
+    let(:user) { FactoryBot.create(:user) }
 
-      expect(response).to have_http_status(:ok)
+    context 'ログインしている場合' do
+      it '記事投稿画面を表示できること' do
+        post login_path, params: {
+          session: {
+            email: user.email,
+            password: user.password
+          }
+        }
+
+        get '/articles'
+        # articleインスタンスとArticleモデルが一致すること
+        article = controller.instance_variable_get(:@article)
+        expect(article).to be_a_new(Article)
+
+        expect(response).to have_http_status(:ok)
+      end
     end
   end
 
@@ -67,4 +78,6 @@ RSpec.describe "Articles", type: :request do
     #   end
     # end
   end
+
+  # TODO: destroyのテスト書く
 end
