@@ -40,10 +40,10 @@ class ArticlesController < ApplicationController
 
     id = params[:id]
     article = Article.find(id)
-    if article.user_id == current_user.id
-      article.destroy!
-      redirect_to root_url
-    end
+    return unless article.user_id == current_user.id
+
+    article.destroy!
+    redirect_to root_url
   end
 
   private
