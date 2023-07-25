@@ -20,6 +20,8 @@ class ArticlesController < ApplicationController
     @article = Article.new
   end
 
+  def edit; end
+
   def create
     authorize Article
 
@@ -34,6 +36,8 @@ class ArticlesController < ApplicationController
       redirect_to root_url
     end
   end
+
+  def update; end
 
   def destroy
     authorize Article

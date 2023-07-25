@@ -19,9 +19,21 @@ RSpec.describe 'Articles', type: :routing do
     end
   end
 
+  describe 'GET /articles/:id/edit' do
+    it 'articles#editにルーティングすること' do
+      expect(get('/articles/1/edit')).to route_to('articles#edit', id: '1')
+    end
+  end
+
   describe 'POST /articles' do
     it 'articles#createにルーティングすること' do
       expect(post('articles')).to route_to('articles#create')
+    end
+  end
+
+  describe 'PUT /articles/:id' do
+    it 'articles#updateにルーティングすること' do
+      expect(put('/articles/1')).to route_to('articles#update', id: '1')
     end
   end
 
