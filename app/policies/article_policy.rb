@@ -3,7 +3,15 @@ class ArticlePolicy < ApplicationPolicy
     user.present?
   end
 
+  def edit?
+    user.present?
+  end
+
   def create?
+    user.present?
+  end
+
+  def update?
     user.present?
   end
 

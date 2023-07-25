@@ -20,7 +20,9 @@ class ArticlesController < ApplicationController
     @article = Article.new
   end
 
-  def edit; end
+  def edit
+    authorize Article
+  end
 
   def create
     authorize Article
@@ -37,7 +39,9 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def update; end
+  def update
+    authorize Article
+  end
 
   def destroy
     authorize Article
