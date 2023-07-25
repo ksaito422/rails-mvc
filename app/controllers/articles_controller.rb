@@ -1,6 +1,8 @@
 class ArticlesController < ApplicationController
-  before_action :authenticate_user!, only: [:new]
+  # ログインしてsessionにuser_idを保持しているかチェックする
+  before_action :authenticate_user!, only: [:new, :destroy]
 
+  # リソースが存在しない場合にhttp not foundを返す
   rescue_from ActiveRecord::RecordNotFound, with: :url_not_found
 
   def index
@@ -33,6 +35,17 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def destroy
+    authorize Article
+
+    id = params[:id]
+    article = Article.find(id)
+    return unless article.user_id == current_user.id
+
+    article.destroy!
+    redirect_to root_url
+  end
+
   private
 
   def url_not_found
@@ -40,9 +53,9 @@ class ArticlesController < ApplicationController
   end
 
   def authenticate_user!
-    unless session[:user_id]
-      flash[:alert] = 'You need to sign in or sign up before continuing.'
-      redirect_to login_path
-    end
+    return if session[:user_id]
+
+    flash[:alert] = 'You need to sign in or sign up before continuing.'
+    redirect_to login_path
   end
 end

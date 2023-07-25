@@ -2,5 +2,8 @@
 <div>
   <p><%= @article.user.name %></p>
   <p><%= @article.content %></p>
+  <% if logged_in? && @article.user_id == @current_user.id %>
+    <%= link_to '削除する', "/articles/#{@article.id}", method: :delete %>
+  <% end %>
 </div>
 

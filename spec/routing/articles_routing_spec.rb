@@ -24,4 +24,10 @@ RSpec.describe 'Articles', type: :routing do
       expect(post('articles')).to route_to('articles#create')
     end
   end
+
+  describe 'DELETE /articles/:id' do
+    it 'articles#destroyにルーティングすること' do
+      expect(delete('articles/1')).to route_to('articles#destroy', id: '1')
+    end
+  end
 end
