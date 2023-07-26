@@ -79,6 +79,102 @@ RSpec.describe "Articles", type: :request do
     # end
   end
 
+  describe 'GET /articles/:id/edit' do
+    context 'ログインしている場合' do
+      let(:user) { FactoryBot.create(:user) }
+
+      context '自分が作成した記事の場合' do
+        let(:article) { FactoryBot.create(:article, user:) }
+
+        it '編集画面を開けること' do
+          post login_path, params: {
+            session: {
+              email: user.email,
+              password: user.password
+            }
+          }
+          expect(session[:user_id]).to eq(user.id)
+
+          get "/articles/#{article.id}/edit"
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context '他人が作成した記事の場合' do
+        let(:other_user) { FactoryBot.create(:user) }
+        let(:other_article) { FactoryBot.create(:article, user: other_user) }
+
+        it '編集画面を開けないこと' do
+          post login_path, params: {
+            session: {
+              email: user.email,
+              password: user.password
+            }
+          }
+          expect(session[:user_id]).to eq(user.id)
+
+          get "/articles/#{other_article.id}/edit"
+
+          expect(response).to have_http_status(:found)
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /articles/:id' do
+    context 'ログインしている場合' do
+      let(:user) { FactoryBot.create(:user) }
+
+      context '自分が作成した記事の場合' do
+        let(:article) { FactoryBot.create(:article, user:) }
+
+        it '更新できること' do
+          post login_path, params: {
+            session: {
+              email: user.email,
+              password: user.password
+            }
+          }
+          expect(session[:user_id]).to eq(user.id)
+
+          patch "/articles/#{article.id}", params: {
+            article: {
+              title: 'test title',
+              content: 'test content'
+            }
+          }
+
+          expect(response).to have_http_status(:found)
+        end
+      end
+
+      context '他人が作成した記事の場合' do
+        let(:other_user) { FactoryBot.create(:user) }
+        let(:other_article) { FactoryBot.create(:article, user: other_user) }
+
+        it '更新できないこと' do
+          post login_path, params: {
+            session: {
+              email: user.email,
+              password: user.password
+            }
+          }
+          expect(session[:user_id]).to eq(user.id)
+
+          patch "/articles/#{other_article.id}", params: {
+            article: {
+              title: 'test title',
+              content: 'test content'
+            }
+          }
+
+          expect(response).to have_http_status(:found)
+        end
+      end
+    end
+  end
+
   describe 'DELETE /articles/:id' do
     context 'ログインしている場合' do
       let(:user) { FactoryBot.create(:user) }
