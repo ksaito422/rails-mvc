@@ -1,5 +1,5 @@
 <h1>記事を編集する</h1>
-<%= form_with model: @article, url: articles_path do |form| %>
+<%= form_with model: @article, url: "/articles/#{@article.id}" do |form| %>
   <%= form.label 'Title: ' %>
   <%= form.text_field :title %>
   <%= form.label 'Content: ' %>

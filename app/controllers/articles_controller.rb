@@ -44,6 +44,13 @@ class ArticlesController < ApplicationController
 
   def update
     authorize Article
+
+    @article = Article.find(params[:id])
+    if @article.update(article_params)
+      redirect_to "/articles/#{@article.id}", notice: 'Article was successfully updated.'
+    else
+      render :edit
+    end
   end
 
   def destroy
@@ -76,5 +83,9 @@ class ArticlesController < ApplicationController
       flash[:alert] = "You don't have permission to do this."
       redirect_to(root_url)
     end
+  end
+
+  def article_params
+    params.require(:article).permit(:title, :content)
   end
 end
